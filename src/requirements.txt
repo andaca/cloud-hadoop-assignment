@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 pandas
+=======
+pandas
+>>>>>>> d35a0479c633123659124dafadd3312b1ce883f1
 skikitlearn
