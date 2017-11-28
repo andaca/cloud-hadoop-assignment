@@ -5,6 +5,7 @@ import re
 from datetime import datetime
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import PCA
 from glob import glob  # use this for windows, works fine on linux without glob
 from sys import argv
 
@@ -56,17 +57,38 @@ def print_output(df):
     # Iterate over the list, make the output
     count = 0
     for i in int_values:
-        # This will be what is outputted to the second mapper/reducer
-        print(('key', (filename_values[count], i)))
+        # This will be
+        # what is outputted to the second mapper/reducer
+        s = 'key\t{}'.format(filename_values[count])
+        s += ' ' + ' '.join([str(n) for n in i])
+        print(s)
+        # print('key\t{},{}'.format(v for v in filename_values[count], i))
         count += 1
+
+
+def reduce_dimensions(df, n_components=None):
+    """
+    @args: data - a numpy array containing arrays of numbers e.g.: [[1,2,3], [4,5,6], ...]
+    @returns: a new numpy array containing arrays of numbers
+    """
+    # Use Principle Component Analysis to reduce the dimensions
+    # http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html
+    # TODO: Can specify n_components in when initialising PCA. Not sure if/what should be used.
+    # return PCA().fit_transform(df)
+    return pd.DataFrame(
+        PCA(n_components).fit_transform(df),
+        index=df.index
+    )
 
 
 def main():
     file_array = get_file_array()
-    # a new file_array is returned because if any of the files result in thrown errors
+    # a new file_array is returned because if any of the files cause errors
     # we need to know which files were actually used
     docs, file_array = get_docs_file_array(file_array)
     df = get_df(docs, file_array)
+    # n_components = 50  # n components for reducing dimensions
+    df = reduce_dimensions(df)
     print_output(df)
 
 
