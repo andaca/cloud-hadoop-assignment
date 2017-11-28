@@ -11,25 +11,33 @@ def get_input():
     lines = [l.split('\t')[1] for l in lines]
     doc_names = [l.split(' ')[0] for l in lines]
     doc_vals = [l.split(' ')[1:] for l in lines]
-    return pd.DataFrame(doc_vals, index=doc_names)
+  
+    # do this to make the 2D array a single array - for the k_means to work
+    doc_vals_flat = [item for sublist in doc_vals for item in sublist]
+  
+
+    #return pd.DataFrame(doc_vals, index=doc_names), doc_vals
+    return pd.DataFrame(doc_vals, index=doc_names), doc_vals_flat
 
 
-def rest():
-    vectorizer = TfidfVectorizer(stop_words='english')
-    # maybe instead of this step - use the weights we have given, that way we use mostly our own code
-    X = vectorizer.fit_transform(doc)
+def k_means_clustering(df, values):
+    # vectorizer = TfidfVectorizer(stop_words='english')
+    # # maybe instead of this step - use the weights we have given, that way we use mostly our own code
+    # X = vectorizer.fit_transform(values)
 
     # K-means here with a k of 3
-    k_value = 3
+    k_value = 5
     k_means = KMeans(n_clusters=k_value, init='k-means++',
                      max_iter=100, n_init=1)
-    k_means.fit(X)
+    #k_means.fit(X)
+    k_means.fit(df)
 
     clusters = k_means.labels_.tolist()
     print("the clusters are ", clusters)
     print("Top terms per cluster:")
     order_centroids = k_means.cluster_centers_.argsort()[:, ::-1]
-    terms = vectorizer.get_feature_names()
+    #terms = vectorizer.get_feature_names()
+    terms = values
     for i in range(k_value):
         print("Cluster %d:" % i,)
         for ind in order_centroids[i, :10]:
@@ -38,8 +46,9 @@ def rest():
 
 
 def main():
-    df = get_input()
-    print(df)
+    df, vals = get_input()
+    #print(vals)
+    k_means_clustering(df,vals)
 
 
 main()

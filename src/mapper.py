@@ -6,18 +6,10 @@ from datetime import datetime
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import PCA
-from glob import glob  # use this for windows, works fine on linux without glob
 from sys import argv
 
 
 def get_file_array():
-    # https://stackoverflow.com/questions/12501761/passing-multple-files-with-asterisk-to-python-shell-in-windows
-    # for filename in glob(argv[1]): # This is the windows way
-    # args = sys.argv[1:] # This is the linux way
-    # for filename in args:
-    #    print("the filename")
-    #    print(filename)
-
     return sys.argv[1:]
 
 
@@ -44,7 +36,7 @@ def get_df(docs, file_array):
     X = vec.fit_transform(docs)
     df = pd.DataFrame(X.toarray(), columns=vec.get_feature_names(), index=[
                       i for i in file_array])  # set up the table
-    #df.to_csv("test.csv", encoding='utf-8', index=True)
+    df.to_csv("vector_table.csv", encoding='utf-8', index=True)
     return df
 
 
