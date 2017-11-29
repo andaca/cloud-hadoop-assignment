@@ -20,25 +20,26 @@ def words(fname):
     with open(fname, 'rt') as f:
         return ' '.join([l for l in f.readlines()])
 
+
 def find_cols_to_delete(df):
     # add stopwords to the cols to drop
     headers = list(df)
     columns_to_drop = []
     index = 0
     for column in df:
-        total_num = df[column].sum(axis=None) # sum the values in the columns
-        if total_num <= 1: # if the total is <= 1 - if the word only appears in one document, add to drop list
+        total_num = df[column].sum(axis=None)  # sum the values in the columns
+        if total_num <= 1:  # if the total is <= 1 - if the word only appears in one document, add to drop list
             columns_to_drop.append(headers[index])
         index += 1
     return columns_to_drop
+
 
 def drop_columns(df):
     # This is original df
     # output as csv
     # iterate over it, drop the cols
     # return the updated dataframe
-    print("before")
-    print(df)
+
     stopwords = ['i', 'in', 'the', 'if', 'or', 'it']
     columns_to_drop = find_cols_to_delete(df)
     headers = list(df)
@@ -48,10 +49,8 @@ def drop_columns(df):
             columns_to_drop.append(word)
 
     for i in columns_to_drop:
-        df = df.drop([str(i)], axis=1) # drop the columns
+        df = df.drop([str(i)], axis=1)  # drop the columns
 
-    print("after")
-    print(df)
     return df
 
 
