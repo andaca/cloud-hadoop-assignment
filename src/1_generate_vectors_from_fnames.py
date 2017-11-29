@@ -2,8 +2,8 @@
 
 IN:     filename_glob
 
-OUT:    filename    <vector>
-        filename    <vector>
+OUT:    "key"    <vector>
+        "key"    <vector>
         ...
 """
 import sys
