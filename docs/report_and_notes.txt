@@ -1,0 +1,26 @@
+
+## ===========================================================================
+## Old ideas
+# Numpy .squeze could reduce dimensions?
+# To run: mapper.py *.txt - windows
+# To run: linux =  python3 mapper.py *.txt
+# Might need to filter out _ in words as well
+
+## ======================================================================================== ##
+
+# Say that in Hadoop they divide on 64MB, so our solution isn't that size - therefore parallelisism 
+# won't happen unless we split it ourselves. - say this in report.
+
+# 128 MB in Hadoop
+
+# simulated parallelism
+# hadoop better for big data, time gain in splitting the data is gone in making it work
+
+# Hadoop - every time you do a task, Hadoop keeps going to and from HDFS, reading from HDFS and writing to this every time which is time consuming.
+# Small data, gaining by splitting data is gone then - not really worth it for small files.
+
+# Just explain code for report and say why etc.
+# Say used single node and why and how to run it, what version of Hadoop we used.
+# Same key so the reducer can reduce it properly - principle of reducer is combining the same keys.
+
+# Hadoop 2 uses yarn which is 128MB. Increase it to reduce the meta data - one namenode (in master) and multiple datanodes

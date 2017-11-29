@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+
+"""
+IN:     <vector>    <centroid>,<centroid>,<centroid>,...
+OUT:    <centroid>  <vector>
+"""
+
 import sys
 import pandas as pd
 import numpy as np
@@ -28,7 +34,7 @@ def vectorise(words_lists, file_names):
     df = pd.DataFrame(X.toarray(),
                       columns=vec.get_feature_names(),
                       index=[i for i in file_names])  # set up the table
-    return df
+    return df.as_matrix()
 
 
 def distance(vector, vector2):
@@ -59,11 +65,13 @@ def main():
 
     # vectorise the files words
     vectors = vectorise(file_words, fnames)
-
+    print(vectors)
     # pick random centroids
     random_centroids = set()
     while len(random_centroids) != N_CENTROIDS:
-        random_centroids.add(vectors[random.randint(0, len(vectors))])
+        random_centroids.add(
+            vectors[random.randint(0, len(vectors))]
+        )
 
     # print the nearest centroid as a key, the vector as the value
     for v in vectors:

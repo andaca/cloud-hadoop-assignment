@@ -1,5 +1,8 @@
-# input: centroid, [a list of points]
-# output: a new centroid
+
+"""
+IN:     <prev_centroid>     <vector>,<vector>,<vector>,...
+OUT:    <prev_centroid>     <new_centroid>
+"""
 
 import sys
 import numpy as np
