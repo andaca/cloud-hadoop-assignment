@@ -20,10 +20,10 @@ def words(fname):
     with open(fname, 'rt') as f:
         return ' '.join([l for l in f.readlines()])
 
-def find_cols_to_delete(stopwords, df):
-    headers = list(df)
+def find_cols_to_delete(df):
     # add stopwords to the cols to drop
-    columns_to_drop = [] + stopwords
+    headers = list(df)
+    columns_to_drop = []
     index = 0
     for column in df:
         total_num = df[column].sum(axis=None) # sum the values in the columns
@@ -32,16 +32,26 @@ def find_cols_to_delete(stopwords, df):
         index += 1
     return columns_to_drop
 
-def drop_columns(df, columns_to_drop):
+def drop_columns(df):
     # This is original df
     # output as csv
     # iterate over it, drop the cols
     # return the updated dataframe
+    print("before")
+    print(df)
     stopwords = ['i', 'in', 'the', 'if', 'or', 'it']
-    columns_to_drop = find_cols_to_delete(stopwords, df)
-    for i in columns_to_drop:
-        df.drop(i, axis=1) # drop the columns
+    columns_to_drop = find_cols_to_delete(df)
+    headers = list(df)
+    # if stopword is in headers, add to array
+    for word in stopwords:
+        if word in headers:
+            columns_to_drop.append(word)
 
+    for i in columns_to_drop:
+        df = df.drop([str(i)], axis=1) # drop the columns
+
+    print("after")
+    print(df)
     return df
 
 
@@ -54,7 +64,7 @@ def vectorise(fname_words_dict):
                       index=[i for i in fname_words_dict.keys()])  # set up the table
     df.to_csv("vector_table_before.csv", encoding='utf-8', index=True)
     # remove stopwords etc.
-    df = drop_columns(df, find_cols_to_delete())
+    df = drop_columns(df)
     df.to_csv("vector_table_after.csv", encoding='utf-8', index=True)
     return zip(fname_words_dict.keys(), df.as_matrix())
 
