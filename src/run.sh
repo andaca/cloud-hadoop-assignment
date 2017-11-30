@@ -6,7 +6,7 @@
 run_map_reduce1() {
 	$HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-2.8.2.jar \
 	-mapper 1_generate_vectors_from_fnames.py \
-	-reducer 2_select_random_centroids.py \
+	-reducer 2_get_centroids.py \
 	-input test_files/*.txt -output map_reduce1_out/
 }
 
@@ -31,9 +31,11 @@ check_distance() {
 run_map_reduce3(){
 	$HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-2.8.2.jar \
 	-mapper 1_generate_vectors_from_fnames.py \
-	-reducer 2_with_centroids.py \
+	-reducer 2_get_centroids.py \
 	-input part-00000 -output map_reduce2_out/
 }
+
+
 
 main() {
 	run_map_reduce1
