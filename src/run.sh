@@ -57,7 +57,7 @@ main() {
 			run=false
 		fi
 	done
-
+	final_run
 }
 
 main
