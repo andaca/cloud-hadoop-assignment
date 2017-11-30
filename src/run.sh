@@ -27,6 +27,10 @@ check_distance() {
 	has_moved.py map_reduce1_out/part-00000
 }
 
+final_run() {
+	run_map_reduce1
+	cat map_reduce1_out/part-0000 | python3 3_nearest_centroid_to_vector.py >> final_output.txt
+}
 
 run_map_reduce3(){
 	$HADOOP_HOME/bin/hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-2.8.2.jar \
