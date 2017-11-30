@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 """
 
-IN:     fname       <vector>
-        fname       <vector>
-        fname       <vector>
-        ...
+IN:     <centroid>,<centroid>,...OR "NONE"       <vector>
+
 
 OUT:    <vector>    <centroid>,<centroid>,<centroid>,...
         <vector>    <centroid>,<centroid>,<centroid>,...
@@ -30,11 +28,27 @@ def stringify_vector(vector):
     return ' '.join([str(i) for i in vector])
 
 
-def main():
-    N_CENTROIDS = 5
+def key_is_NONE():
+    for x in [l.split('\t')[0] for l in sys.stdin]:
+        if x == "NONE":
+            return True
+    return False
 
-    vectors = get_vectors()
 
+def read_centroids_from_reducer_out_file(fname):
+    with open(fname, 'rt') as f:
+        centroids = [l.split('\t')[1] for l in f.readlines()]
+        centroids = [c.rstrip('\n') for c in centroids]
+        centroids = [c.split(' ') for c in centroids]
+
+        for i, centroid in enumerate(centroids):
+            centroid = [i for i in centroid if i]
+            centroids[i] = [int(i) for i in centroid]
+
+        return centroids
+
+
+def random_centroids(vectors, N_CENTROIDS=5):
     # pick random centroids
     # Use a set to ensure they are all unique.
     # Sets have to be of tuples rather than lists, since lists are mutable
@@ -43,7 +57,16 @@ def main():
         centroids.add(tuple(vectors[random.randint(0, len(vectors) - 1)]))
 
     # Now you can cast the set of tuples to a list of lists
-    centroids = [list(c) for c in centroids]
+    return [list(c) for c in centroids]
+
+
+def main():
+
+    vectors = get_vectors()
+    try:
+        centroids = read_centroids_from_reducer_out_file("part-0000")
+    except FileNotFoundError:   # thrown on the first run
+        centroids = random_centroids(vectors)
 
     for v in vectors:
         print("{}\t{}".format(
