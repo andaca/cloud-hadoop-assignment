@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 """
 IN:     <vector>    <centroid>,<centroid>,<centroid>,...
 OUT:    <centroid>  <vector>

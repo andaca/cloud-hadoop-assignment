@@ -32,8 +32,8 @@ def distance(vector, vector2):
     return np.sqrt(np.sum(np.square((vector - vector2))))
 
 
-def main()
-    ACCEPTABLE_MARGIN = 100
+def main():
+    ACCEPTABLE_MARGIN = 100  # This needs to be tweaked depending on the data
     centroid_pairs = get_centroid_pairs(get_fname())
     for c1, c2 in centroid_pairs:
         if distance(np.array(c1), np.array(c2)) > ACCEPTABLE_MARGIN:

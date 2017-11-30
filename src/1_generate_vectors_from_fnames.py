@@ -1,5 +1,6 @@
-"""
+#!/usr/bin/env python3
 
+"""
 IN:     filename_glob   
 
 OUT:    "key"    <vector>
