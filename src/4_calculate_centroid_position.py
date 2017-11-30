@@ -17,7 +17,6 @@ def get_centroid_and_vectors():
 
     vectors = []
     for l in sys.stdin:
-        print('sdf')
         centroid, vector = l.split('\t')
         vector = [int(i) for i in vector.split(' ')]
         vectors.append(vector)
